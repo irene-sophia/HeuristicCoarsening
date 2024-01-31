@@ -23,8 +23,14 @@ def collapse_node(links, nodes, weights, A, node_id, max_link_id, incoming_index
         d_node = [k[1] for k, v in links.items() if v['id'] == index_pairs[i, 1]][0]
         if (pruning == 0) or (o_node != d_node):
             # create new link info: 
+
+            ##################
+            # TODO: put rem_nodes in nodes en rem_links in links!!!!
+            ###################
+
             ### id, o_node, d_node, distance, weight, removed_nodes, removed_links, TODO: prob fug?
-            rem_nodes = links[(o_node, node_to_be_collapsed)]['removed_nodes'] + links[(node_to_be_collapsed, d_node)]['removed_nodes'] + [node_id]
+            # rem_nodes = links[(o_node, node_to_be_collapsed)]['removed_nodes'] + links[(node_to_be_collapsed, d_node)]['removed_nodes'] + [node_id]
+            #TODO: kijk of je die ids dan nog kan herleiden naar de originele links later
             rem_links = links[(o_node, node_to_be_collapsed)]['removed_links'] + links[(node_to_be_collapsed, d_node)]['removed_links'] + [links[(o_node, node_to_be_collapsed)]['id'], links[(node_to_be_collapsed, d_node)]['id']]
             
             if 'geometry' in links[(o_node, node_to_be_collapsed)]:
@@ -40,11 +46,16 @@ def collapse_node(links, nodes, weights, A, node_id, max_link_id, incoming_index
                     geom = links[(node_to_be_collapsed, d_node)]['geometry']
                 else:
                     continue
+            
+            # put removed node on closest node (o/d):
+            # closest_neighbor = min(links[(o_node, node_to_be_collapsed)]['length'],  links[(node_to_be_collapsed, d_node)]['length'])    
+            closest_neighbor = o_node if links[(o_node, node_to_be_collapsed)]['length'] < links[(node_to_be_collapsed, d_node)]['length'] else d_node
+            nodes[closest_neighbor]['removed_nodes'] = nodes[closest_neighbor]['removed_nodes'] + nodes[node_to_be_collapsed]['removed_nodes']
 
             links[(o_node, d_node)] = {'length': links[(o_node, node_to_be_collapsed)]['length'] + links[(node_to_be_collapsed, d_node)]['length'],
                                        'id': max_link_id+1, 
                                        'weight': np.mean([links[(o_node, node_to_be_collapsed)]['weight'], links[(node_to_be_collapsed, d_node)]['weight']]), 
-                                       'removed_nodes': rem_nodes, 
+                                    #    'removed_nodes': rem_nodes, 
                                        'removed_links': rem_links, 
                                        'travel_time': links[(o_node, node_to_be_collapsed)]['travel_time'] + links[(node_to_be_collapsed, d_node)]['travel_time'],
                                        'geometry': geom,

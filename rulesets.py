@@ -22,12 +22,13 @@ def rulesets(links, nodes, weights, A, i, max_link_id, params, pred, succ):
             if not incoming:
                 outgoing_index = [link_data['id'] for link, link_data in links.items() if link in outgoing]
                 # outgoing_index = [index for index, link in enumerate(links) if link['id'] in outgoing]
-                weights = [weights[index] for index in outgoing_index]
-                links = [link for index, link in enumerate(links) if link['id'] in outgoing]
+                # weights = [weights[index] for index in outgoing_index]
+                links = {k:v for k,v in links.items() if v['id'] not in outgoing_index}
+                #links = [link for index, link in enumerate(links) if link['id'] in outgoing]
             else:
-                incoming_index = [index for index, link in enumerate(links) if link['id'] in incoming]
-                weights = [weights[index] for index in incoming_index]
-                links = [link for index, link in enumerate(links) if link['id'] in incoming]
+                incoming_index = [link_data['id'] for link, link_data in links.items() if link in incoming]
+                # weights = [weights[index] for index in incoming_index]
+                links = {k:v for k,v in links.items() if v['id'] not in incoming_index}
         i += 1
     else:
         pairs = [(p, q) for p in incoming for q in outgoing]

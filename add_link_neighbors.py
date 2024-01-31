@@ -35,10 +35,23 @@ def add_link_neighbors(G, links):
     for i, link in enumerate(links):
         # add neighbor info to each link
         links[link]['neighbors'] = []
-        oo = [links[b]['id'] for b in list(G.out_edges(link[0]))]
-        od = [links[b]['id'] for b in list(G.in_edges(link[0]))]
-        do = [links[b]['id'] for b in list(G.out_edges(link[1]))]
-        dd = [links[b]['id'] for b in list(G.in_edges(link[1]))]
+        try:
+            oo = [links[b]['id'] for b in list(G.out_edges(link[0])) if b[0] != b[1]]
+        except: 
+            oo = []
+        try:
+            od = [links[b]['id'] for b in list(G.in_edges(link[0])) if b[0] != b[1]]
+        except: 
+            od = []
+        try:
+            do = [links[b]['id'] for b in list(G.out_edges(link[1])) if b[0] != b[1]]
+        except:
+            do = []
+        try:
+            dd = [links[b]['id'] for b in list(G.in_edges(link[1])) if b[0] != b[1]]
+        except:
+            dd = []
+            
         all_ids = oo + do + od + dd
         unique_ids = list(set(all_ids))
 

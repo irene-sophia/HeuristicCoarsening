@@ -37,7 +37,7 @@ end
 params.flag_study_area = 0;
 params.flag_intersection = 0;
 params.exempt_ids = [];
-params.pruning = 0;
+params.pruning = 1;
 params.threshold = 1000;
 params.iterations = 1;
 params.constraint_links = 1;

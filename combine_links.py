@@ -20,19 +20,24 @@ def combine_links(links, nodes, weights, params):
     G = nx.DiGraph()
     G.add_edges_from([(link[0], link[1]) for link in links])
 
-    # TODO: figure out what this does
     checked_nodes = []
     for link in links:
         try:
             x = links[link]['removed_nodes']
             checked_nodes += x
         except KeyError:
-            links[link]['removed_nodes'] = []
+            # links[link]['removed_nodes'] = []
             links[link]['removed_links'] = []
+
+    for node in nodes:
+        try:
+            x = nodes[node]['removed_nodes']
+        except KeyError:
+            nodes[node]['removed_nodes'] = []
     checked_nodes = list(set(checked_nodes))  # unique values
 
-
     unused_nodes = set(nodes) - set([link[0] for link in links] + [link[1] for link in links])
+    # TODO: also remove from nodes list??
     G.remove_nodes_from(unused_nodes)
     A = nx.adjacency_matrix(G)
     max_link_id = max([v['id'] for k, v in links.items() ])
@@ -78,11 +83,16 @@ def combine_links(links, nodes, weights, params):
     # else:
     #     print('Links were pruned')
 
+    links = add_link_neighbors(G, links)
+    nodes = add_vertex_neighbors(G, nodes, links) 
+
     if pruning == 1:
-        links, weights = delete_end_nodes(links, weights, nodes, exempt_ids)
+        links, nodes, weights = delete_end_nodes(G, links, weights, nodes, exempt_ids)
         links, weights = delete_self_loops(links, weights, exempt_ids)
 
     links = add_link_neighbors(G, links)
     nodes = add_vertex_neighbors(G, nodes, links) 
+
+    # also delete nodes that have no neighbors? (no that should be fixed by the check_connectivity func)
 
     return links, nodes, weights
