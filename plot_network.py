@@ -44,11 +44,11 @@ def plot_network(G_coarsened, G_orig):
     fig = ox.plot_graph(G_orig, 
                         bgcolor="white", node_color=node_color, node_size=node_size, 
                         edge_linewidth=edge_size, edge_color=edge_color,
-                        show=False, save=True, filepath='Rotterdam_orig.png')
+                        show=False, save=True, filepath='figs/Rotterdam_orig.png')
 
     node_size, node_color = node_colors(G_coarsened)
     edge_size, edge_color = edge_colors(G_coarsened)
     fig = ox.plot_graph(mdg, 
                         bgcolor="white", node_color=node_color, node_size=node_size, 
                         edge_linewidth=edge_size, edge_color=edge_color,
-                        show=False, save=True, filepath='Rotterdam_coarsened.png')
+                        show=False, save=True, filepath='figs/Rotterdam_coarsened.png')
