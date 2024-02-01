@@ -2,7 +2,7 @@ import numpy as np
 from collapse_node import collapse_node
 
 
-def rulesets(links, nodes, weights, A, i, max_link_id, params, pred, succ):
+def rulesets(links, nodes, weights, i, max_link_id, params, pred, succ):
     var_threshold = params['threshold']
     constraint_links = params['constraint_links']
     pruning = params['pruning']
@@ -43,7 +43,7 @@ def rulesets(links, nodes, weights, A, i, max_link_id, params, pred, succ):
             if any(np.var(pair) > var_threshold for pair in weight_pairs):  # TODO: does this make sense?
                 i += 1
             else:
-                links, nodes, weights, A, max_link_id = collapse_node(links, nodes, weights, A, node_id, max_link_id, incoming_index, outgoing_index, pruning)
+                links, nodes, weights, max_link_id = collapse_node(links, nodes, weights, node_id, max_link_id, incoming_index, outgoing_index, pruning)
                 i += 1
 
-    return links, nodes, weights, A, max_link_id, i
+    return links, nodes, weights, max_link_id, i

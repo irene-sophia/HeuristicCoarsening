@@ -104,7 +104,7 @@ for id, link in enumerate(links):
 # TODO: exempt ids should be exit nodes, fug start, pol start
 params = {
     'flag_study_area': 0,
-    'flag_intersection': 0,
+    'flag_intersection': 1,
     'exempt_ids': [],
     'pruning': 1,
     'threshold': 1000,

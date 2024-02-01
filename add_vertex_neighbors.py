@@ -12,7 +12,7 @@ def add_vertex_neighbors(G, vertex, links):
         succ_nodes = list(G.successors(i))
 
         neighbors = pred_nodes + succ_nodes
-        vertex[i]['num_neighboring_nodes'] = len(neighbors)
+        vertex[i]['num_neighboring_nodes'] = len(set(neighbors))
 
         # sucIDs = [index for index, node in enumerate(all_o_nodes_sorted) if vertex[i].id == node]
         # preIDs = [index for index, node in enumerate(all_d_nodes_sorted) if vertex[i].id == node]

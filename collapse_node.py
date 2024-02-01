@@ -1,7 +1,7 @@
 import numpy as np
 from shapely.wkt import loads
 
-def collapse_node(links, nodes, weights, A, node_id, max_link_id, incoming_index, outgoing_index, pruning):
+def collapse_node(links, nodes, weights, node_id, max_link_id, incoming_index, outgoing_index, pruning):
     # incoming/ outcoming are LINKS (indices) that are connected to the node we're collapsing 
     node_ids = []
     p, q = np.meshgrid(incoming_index, outgoing_index)  # combinations again??
@@ -81,4 +81,4 @@ def collapse_node(links, nodes, weights, A, node_id, max_link_id, incoming_index
     links = {k: v for k, v in links.items() if v['id'] not in indexes}
     weights = {k: v for k, v in weights.items() if k not in indexes}
     node_ids.append(node_id)  # TODO: what are you for???
-    return links, nodes, weights, A, max_link_id
+    return links, nodes, weights, max_link_id

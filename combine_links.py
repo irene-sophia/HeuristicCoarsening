@@ -39,7 +39,7 @@ def combine_links(links, nodes, weights, params):
     unused_nodes = set(nodes) - set([link[0] for link in links] + [link[1] for link in links])
     # TODO: also remove from nodes list??
     G.remove_nodes_from(unused_nodes)
-    A = nx.adjacency_matrix(G)
+    # A = nx.adjacency_matrix(G)
     max_link_id = max([v['id'] for k, v in links.items() ])
     # initial_S = check_connectivity_faster(A)
     exempt_ids = sorted(exempt_ids)
@@ -60,7 +60,7 @@ def combine_links(links, nodes, weights, params):
             if not all_link_ids:
                 pass
             else:
-                links, nodes, weights, A, max_link_id, i = rulesets(links, nodes, weights, A, node, max_link_id, params, pred, succ)
+                links, nodes, weights, max_link_id, i = rulesets(links, nodes, weights, node, max_link_id, params, pred, succ)
 
     links, weights = delete_duplicate_edges(links, weights)
     G = nx.DiGraph()
@@ -87,7 +87,7 @@ def combine_links(links, nodes, weights, params):
     nodes = add_vertex_neighbors(G, nodes, links) 
 
     if pruning == 1:
-        links, nodes, weights = delete_end_nodes(G, links, weights, nodes, exempt_ids)
+        G, links, nodes, weights = delete_end_nodes(G, links, weights, nodes, exempt_ids)
         links, weights = delete_self_loops(links, weights, exempt_ids)
 
     links = add_link_neighbors(G, links)
