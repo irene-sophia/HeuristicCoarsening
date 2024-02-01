@@ -24,10 +24,6 @@ def collapse_node(links, nodes, weights, node_id, max_link_id, incoming_index, o
         if (pruning == 0) or (o_node != d_node):
             # create new link info: 
 
-            ##################
-            # TODO: put rem_nodes in nodes en rem_links in links!!!!
-            ###################
-
             ### id, o_node, d_node, distance, weight, removed_nodes, removed_links, TODO: prob fug?
             # rem_nodes = links[(o_node, node_to_be_collapsed)]['removed_nodes'] + links[(node_to_be_collapsed, d_node)]['removed_nodes'] + [node_id]
             #TODO: kijk of je die ids dan nog kan herleiden naar de originele links later
@@ -48,7 +44,6 @@ def collapse_node(links, nodes, weights, node_id, max_link_id, incoming_index, o
                     continue
             
             # put removed node on closest node (o/d):
-            # closest_neighbor = min(links[(o_node, node_to_be_collapsed)]['length'],  links[(node_to_be_collapsed, d_node)]['length'])    
             closest_neighbor = o_node if links[(o_node, node_to_be_collapsed)]['length'] < links[(node_to_be_collapsed, d_node)]['length'] else d_node
             nodes[closest_neighbor]['removed_nodes'] = nodes[closest_neighbor]['removed_nodes'] + nodes[node_to_be_collapsed]['removed_nodes']
 

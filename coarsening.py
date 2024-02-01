@@ -16,8 +16,8 @@ def coarsening(links, vertex, weights, params):
         if len(prev_links) == len(new_links):
             flag = 0
             print('Coarsening finished after {} iterations'.format(iter))
-            print(f'New number of links: {len(links)}, New number of links: {len(new_links)}; reduction of {len(new_links)/len(links)}.')
-            print(f'New number of nodes: {len(vertex)}, New number of links: {len(new_vertex)}; reduction of {len(new_vertex)/len(vertex)}.')
+            print(f'New number of links: {len(links)}, New number of links: {len(new_links)}; link reduction of {round((len(links) - len(new_links))/len(links), 2)}.')
+            print(f'New number of nodes: {len(vertex)}, New number of nodes: {len(new_vertex)}; node reduction of {round((len(vertex) - len(new_vertex))/len(vertex), 2)}.')
         else:
             flag = 1
         prev_links = new_links
