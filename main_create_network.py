@@ -2,7 +2,10 @@ import networkx as nx
 import osmnx as ox
 
 def city_graph(city, distance):
-    filepath = f"networks/Graph_{city}_{distance}.graph.graphml"
+    if distance == 0:
+        filepath = f"networks/{city}.graph.graphml"
+    else:
+        filepath = f"networks/{city}_{distance}.graph.graphml"
 
     # graph = nx.read_graphml(path=filepath, node_type=int, edge_key_type=float)
     graph = ox.load_graphml(filepath)
@@ -19,4 +22,4 @@ def city_graph(city, distance):
 
     return graph, labels, labels_inv
 
-G, _, _ = city_graph("Rotterdam", 600)
+# G, _, _ = city_graph("Rotterdam", 600)

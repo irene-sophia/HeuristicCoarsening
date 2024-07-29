@@ -1,5 +1,5 @@
 def delete_end_nodes(G, links, weights, nodes, exempt_ids):
-    # TODO also remove dead ends (no successor nodes) & put info on closest pred node
+    # remove dead ends (no successor nodes) & put info on closest pred node
     all_nodes = {k:v for k, v in nodes.items() if v['num_neighboring_nodes'] == 1}
     if exempt_ids:
         all_nodes = {k:v for k, v in all_nodes.items() if k not in exempt_ids}

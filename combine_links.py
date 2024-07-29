@@ -17,23 +17,29 @@ def combine_links(links, nodes, weights, params):
     # combine links with one neighbor and similar speed
     nodes = sort_nodes(nodes)
     links, weights = delete_duplicate_edges(links, weights)
-    G = nx.DiGraph()
+    G = nx.MultiDiGraph()
     G.add_edges_from([(link[0], link[1]) for link in links])
 
     checked_nodes = []
     for link in links:
         try:
-            x = links[link]['removed_nodes']
+            x = links[link]['removed_nodes']  # todo nodes of links?
             checked_nodes += x
         except KeyError:
             # links[link]['removed_nodes'] = []
-            links[link]['removed_links'] = []
+            links[link]['removed_nodes'] = []
+
+        try:
+            x = links[link]['removed_links']  # todo nodes of links?
+            checked_nodes += x
+        except KeyError:
+            links[link]['removed_links'] = [link]
 
     for node in nodes:
         try:
             x = nodes[node]['removed_nodes']
         except KeyError:
-            nodes[node]['removed_nodes'] = []
+            nodes[node]['removed_nodes'] = [node]
     checked_nodes = list(set(checked_nodes))  # unique values
 
     unused_nodes = set(nodes) - set([link[0] for link in links] + [link[1] for link in links])
@@ -63,7 +69,7 @@ def combine_links(links, nodes, weights, params):
                 links, nodes, weights, max_link_id, i = rulesets(links, nodes, weights, node, max_link_id, params, pred, succ)
 
     links, weights = delete_duplicate_edges(links, weights)
-    G = nx.DiGraph()
+    G = nx.MultiDiGraph()
     G.add_edges_from([(link[0], link[1]) for link in links])
     unused_nodes = set(nodes) - set([link[0] for link in links] + [link[1] for link in links])
     G.remove_nodes_from(unused_nodes)

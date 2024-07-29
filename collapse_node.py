@@ -17,18 +17,23 @@ def collapse_node(links, nodes, weights, node_id, max_link_id, incoming_index, o
 
         if index_pairs[i,0] == index_pairs[i, 1]:
             continue
+        try:
+            o_node = [k[0] for k, v in links.items() if v['id'] == index_pairs[i, 0]][0]
+            node_to_be_collapsed = [k[0] for k, v in links.items() if v['id'] == index_pairs[i, 1]][0]
+            d_node = [k[1] for k, v in links.items() if v['id'] == index_pairs[i, 1]][0]
+        except:
+            continue  # TODO what happens here actually: trying to delete a non existing node?
 
-        o_node = [k[0] for k, v in links.items() if v['id'] == index_pairs[i, 0]][0]
-        node_to_be_collapsed = [k[0] for k, v in links.items() if v['id'] == index_pairs[i, 1]][0]
-        d_node = [k[1] for k, v in links.items() if v['id'] == index_pairs[i, 1]][0]
         if (pruning == 0) or (o_node != d_node):
             # create new link info: 
 
-            ### id, o_node, d_node, distance, weight, removed_nodes, removed_links, TODO: prob fug?
+            ### id, o_node, d_node, distance, weight, removed_nodes, removed_links,
             # rem_nodes = links[(o_node, node_to_be_collapsed)]['removed_nodes'] + links[(node_to_be_collapsed, d_node)]['removed_nodes'] + [node_id]
             #TODO: kijk of je die ids dan nog kan herleiden naar de originele links later
-            rem_links = links[(o_node, node_to_be_collapsed)]['removed_links'] + links[(node_to_be_collapsed, d_node)]['removed_links'] + [links[(o_node, node_to_be_collapsed)]['id'], links[(node_to_be_collapsed, d_node)]['id']]
-            
+            #rem_links = links[(o_node, node_to_be_collapsed)]['removed_links'] + links[(node_to_be_collapsed, d_node)]['removed_links'] + [links[(o_node, node_to_be_collapsed)]['id'], links[(node_to_be_collapsed, d_node)]['id']]
+            rem_links = (links[(o_node, node_to_be_collapsed)]['removed_links'] + links[(node_to_be_collapsed, d_node)]['removed_links'] +
+                         [(o_node, node_to_be_collapsed),(node_to_be_collapsed, d_node)])
+
             if 'geometry' in links[(o_node, node_to_be_collapsed)]:
                 if 'geometry' in links[(node_to_be_collapsed, d_node)]:
                     coords1 = str(links[(o_node, node_to_be_collapsed)]['geometry']).split('(')[1].split(')')[0]

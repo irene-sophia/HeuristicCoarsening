@@ -1,5 +1,8 @@
 venv/
 .vscode/
+chache/
+simulation/pydsol/
+figs/
 
 .idea/
 
